@@ -40,5 +40,4 @@ public interface FeignDefaultContractApi {
 
     @RequestLine("GET /downloadByHttpServlet?fileName={fileName}")
     InputStream downloadByHttpServlet(@Param("fileName") String fileName);
-
 }

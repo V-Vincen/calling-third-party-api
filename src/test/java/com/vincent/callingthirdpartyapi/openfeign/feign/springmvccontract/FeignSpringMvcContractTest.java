@@ -89,5 +89,4 @@ public class FeignSpringMvcContractTest {
         InputStream inServlet = singleClient.downloadByHttpServlet("file.txt");
         IOUtils.copy(inServlet, Files.newOutputStream(path.resolve("downbyservlet.txt")));
     }
-
 }

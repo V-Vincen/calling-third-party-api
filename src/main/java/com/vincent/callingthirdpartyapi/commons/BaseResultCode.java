@@ -31,6 +31,4 @@ public enum BaseResultCode implements ResultCode {
     public String getDesc() {
         return desc;
     }
-
-
 }

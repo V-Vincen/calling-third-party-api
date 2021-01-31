@@ -32,7 +32,7 @@ public class FeignServerController {
 
     @PostMapping(value = "/postPhone")
     public ResponseDto<PhoneDto> postPhone(@RequestBody PhoneQueryDto queryDto, @RequestParam("param") String param) throws JsonProcessingException {
-        log.info("getPhone 请求参数 queryDto: {}, param: {}...", queryDto, param);
+        log.info("postPhone 请求参数 queryDto: {}, param: {}...", queryDto, param);
         if (Objects.isNull(queryDto.getApp())) {
             return ResponseDto.error();
         }
@@ -55,7 +55,7 @@ public class FeignServerController {
 
     @PostMapping(value = "/postFormTime")
     public ResponseDto<TimeDto> postFormTime(TimeQueryDto queryDto) throws JsonProcessingException {
-        log.info("getPhone 请求参数 queryDto: {}...", queryDto);
+        log.info("postFormTime 请求参数 queryDto: {}...", queryDto);
         if (Objects.isNull(queryDto.getApp())) {
             return ResponseDto.error();
         }
@@ -78,7 +78,7 @@ public class FeignServerController {
                                             @RequestParam("appkey") String appkey,
                                             @RequestParam("sign") String sign,
                                             @RequestParam("format") String format) throws JsonProcessingException {
-        log.info("getIdCard 请求参数 app: {}, idcard: {}, appkey: {}, sign: {}, format: {}...", app, idcard, appkey, sign, format);
+        log.info("getIDCard 请求参数 app: {}, idcard: {}, appkey: {}, sign: {}, format: {}...", app, idcard, appkey, sign, format);
         if (StringUtils.isBlank(app)) {
             return ResponseDto.error();
         }
@@ -109,6 +109,7 @@ public class FeignServerController {
 
     @PostMapping(value = "/upload")
     public ResponseDto<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
+        log.info("upload 请求参数 MultipartFile file: {}...", file);
         String name = file.getOriginalFilename();
         log.info("File name: {}...", name);
         file.transferTo(Paths.get(PATH).resolve("file2.txt"));
@@ -117,7 +118,7 @@ public class FeignServerController {
 
     @GetMapping(value = "/downloadBySpringMvc")
     public FileSystemResource downloadBySpringMvc(@RequestParam("fileName") String fileName, HttpServletResponse response) throws UnsupportedEncodingException {
-        log.info("File name: {}...", fileName);
+        log.info("downloadBySpringMvc 请求参数 String fileName: {}...", fileName);
         Path filePath = Paths.get(PATH).resolve(fileName);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLEncoder.encode("fileName.txt", "UTF-8"));
@@ -126,7 +127,7 @@ public class FeignServerController {
 
     @GetMapping(value = "/downloadByHttpServlet")
     public void downloadByHttpServlet(@RequestParam("fileName") String fileName, HttpServletResponse response) throws Exception {
-        log.info("File name: {}...", fileName);
+        log.info("downloadByHttpServlet 请求参数 String fileName: {}...", fileName);
 //        Path filePath = Paths.get(PATH).resolve(fileName);
 //        response.getOutputStream().write(Files.readAllBytes(filePath));
 //        IOUtils.copy(Files.newInputStream(filePath), response.getOutputStream());
@@ -135,5 +136,4 @@ public class FeignServerController {
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLEncoder.encode("fileName.txt", "UTF-8"));
         response.getOutputStream().write((fileName + "download success...").getBytes(StandardCharsets.UTF_8));
     }
-
 }
