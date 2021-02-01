@@ -87,8 +87,12 @@ public class ResponseDto<T> implements Serializable {
         return new ResponseDto<>(ResultCode.ERROR, errorMsg, null);
     }
 
-    public static <T> ResponseDto<T> error(ResultCode responseCode, T data) {
-        return error(responseCode, null, data);
+    public static <T> ResponseDto<T> error(ResultCode responseCode) {
+        return error(responseCode, null, null);
+    }
+
+    public static <T> ResponseDto<T> error(ResultCode responseCode, String errorMsg) {
+        return error(responseCode, errorMsg, null);
     }
 
     public static <T> ResponseDto<T> error(ResultCode responseCode, String errorMsg, T data) {
