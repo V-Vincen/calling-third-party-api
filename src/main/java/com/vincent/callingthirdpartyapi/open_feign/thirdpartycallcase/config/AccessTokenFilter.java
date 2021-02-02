@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.vincent.callingthirdpartyapi.commons.ResponseDto;
 import com.vincent.callingthirdpartyapi.open_feign.thirdpartycallcase.enums.ResultCodeErrorEnum;
+import com.vincent.callingthirdpartyapi.open_feign.thirdpartycallcase.utils.TpCallCaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +57,7 @@ public class AccessTokenFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
+        System.out.println();
         log.info("AccessTokenFilter init...");
         // 初始化 token
         getTokenMap();
@@ -62,36 +68,38 @@ public class AccessTokenFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getRequestURI().substring(request.getContextPath().length());
-        log.info("AccessTokenFilter doFilter...");
-
         if (NOT_ALLOWED_PATHS.contains(path)) {
+            System.out.println();
+            log.info("AccessTokenFilter doFilter...");
+            log.info("AccessTokenFilter check Token start !!!!!!");
             String accessToken = request.getParameter("accessToken");
             if (StringUtils.isEmpty(accessToken)) {
                 log.warn("Parameter accessToken is empty...");
-                writeJson("Parameter accessToken is empty...", response);
+                TpCallCaseUtils.writeJson("Parameter accessToken is empty...", response);
                 return;
             }
-            log.info("Parameter accessToken is {}...", accessToken);
+            log.info("Parameter accessToken is [{}]...", accessToken);
 
             List<String> tokenList = TOKEN_MAP.get(KEY);
             if (MapUtils.isNotEmpty(TOKEN_MAP) && TOKEN_MAP.containsKey(KEY)) {
                 long expiresTime = Long.parseLong(tokenList.get(0));
                 long currentTimeMillis = System.currentTimeMillis();
                 if (expiresTime < currentTimeMillis) {
-                    log.warn("Access token has expired...");
+                    log.warn("Access Token has expired...");
                     TOKEN_MAP.clear();
-                    log.info("Clear access token...");
+                    log.info("Clear access Token...");
                     getTokenMap();
-                    writeJson("Access token has expired...", response);
+                    TpCallCaseUtils.writeJson("Access Token has expired...", response);
                     return;
                 }
             }
 
             if (!StringUtils.equals(tokenList.get(1), accessToken)) {
-                log.warn("Access token is error...");
-                writeJson("Access token is error...", response);
+                log.warn("Access Token is error...");
+                TpCallCaseUtils.writeJson("Access Token is error...", response);
                 return;
             }
+            log.info("AccessTokenFilter check Token end !!!!!!\n");
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
@@ -112,26 +120,8 @@ public class AccessTokenFilter implements Filter {
         linkedList.add(String.valueOf(expiresTime));
         linkedList.add(token);
         TOKEN_MAP.put(KEY, linkedList);
-        log.info("Generate access token...");
-        log.info("Access token is {}...", token);
+        log.info("Generate access Token: [{}], Expires Time: [{}] ...\n", token, TpCallCaseUtils.millisConvertToDate(expiresTime));
     }
 
-    /**
-     * 返回错误信息
-     *
-     * @param errorMsg 错误信息
-     * @param response HttpServletResponse
-     */
-    private void writeJson(String errorMsg, HttpServletResponse response) {
-        try {
-            String json = new ObjectMapper().writeValueAsString(ResponseDto.error(ResultCodeErrorEnum.TOKEN_ERROR, errorMsg));
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            PrintWriter writer = response.getWriter();
-            writer.print(json);
-            writer.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

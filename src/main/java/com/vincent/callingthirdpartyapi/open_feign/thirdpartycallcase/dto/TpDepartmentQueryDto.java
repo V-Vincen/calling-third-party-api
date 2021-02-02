@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class TpDepartmentQueryDto {
-    private String accessToken;
-    private Long id;
+    private Long idOrParentId;
+    private String position;
 }

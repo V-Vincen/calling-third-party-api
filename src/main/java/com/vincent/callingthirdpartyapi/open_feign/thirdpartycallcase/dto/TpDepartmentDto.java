@@ -1,12 +1,16 @@
 package com.vincent.callingthirdpartyapi.open_feign.thirdpartycallcase.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author vincent
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TpDepartmentDto {
     private Long id;
     /**
@@ -27,18 +31,12 @@ public class TpDepartmentDto {
     private Long parentId;
 
     /**
+     * 职位
+     */
+    private String position;
+
+    /**
      * 在父部门中的次序值。order值大的排序靠前。值范围是[0, 2^32)
      */
     private Long order;
-
-    public TpDepartmentDto() {
-    }
-
-    public TpDepartmentDto(Long id, String name, String nameEn, Long parentId, Long order) {
-        this.id = id;
-        this.name = name;
-        this.nameEn = nameEn;
-        this.parentId = parentId;
-        this.order = order;
-    }
 }

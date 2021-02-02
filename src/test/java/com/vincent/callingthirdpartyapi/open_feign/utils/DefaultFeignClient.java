@@ -1,8 +1,17 @@
 package com.vincent.callingthirdpartyapi.open_feign.utils;
 
 import com.google.common.collect.ImmutableMap;
-import feign.*;
+import feign.Client;
+import feign.Contract;
+import feign.Feign;
+import feign.FeignException;
+import feign.Logger;
+import feign.Request;
 import feign.Request.Options;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import feign.Response;
+import feign.Retryer;
 import feign.codec.EncodeException;
 import feign.codec.ErrorDecoder;
 import feign.form.spring.SpringFormEncoder;
