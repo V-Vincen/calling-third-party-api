@@ -1,16 +1,12 @@
 package com.vincent.callingthirdpartyapi.open_feign.thirdpartycallcase.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.vincent.callingthirdpartyapi.commons.ResponseDto;
-import com.vincent.callingthirdpartyapi.open_feign.thirdpartycallcase.enums.ResultCodeErrorEnum;
 import com.vincent.callingthirdpartyapi.open_feign.thirdpartycallcase.utils.TpCallCaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
@@ -23,12 +19,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +113,4 @@ public class AccessTokenFilter implements Filter {
         TOKEN_MAP.put(KEY, linkedList);
         log.info("Generate access Token: [{}], Expires Time: [{}] ...\n", token, TpCallCaseUtils.millisConvertToDate(expiresTime));
     }
-
-
 }
