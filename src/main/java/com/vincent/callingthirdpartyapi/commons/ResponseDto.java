@@ -1,6 +1,9 @@
 package com.vincent.callingthirdpartyapi.commons;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -10,35 +13,34 @@ import java.util.Optional;
  * @author vincent
  * 返回前端数据封装
  */
+@Data
+@NoArgsConstructor
 public class ResponseDto<T> implements Serializable {
     private int status;
     private String msg;
     private T data;
 
-    private ResponseDto() {
-    }
-
-    private ResponseDto(int status) {
+    public ResponseDto(int status) {
         this.status = status;
     }
 
-    private ResponseDto(int status, T data) {
+    public ResponseDto(int status, T data) {
         this.status = status;
         this.data = data;
     }
 
-    private ResponseDto(int status, String msg, T data) {
+    public ResponseDto(int status, String msg, T data) {
         this.status = status;
         this.msg = msg;
         this.data = data;
     }
 
-    private ResponseDto(int status, String msg) {
+    public ResponseDto(int status, String msg) {
         this.status = status;
         this.msg = msg;
     }
 
-    private ResponseDto(ResultCode responseCode, T data) {
+    public ResponseDto(ResultCode responseCode, T data) {
         this(responseCode, null, data);
     }
 

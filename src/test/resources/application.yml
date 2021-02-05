@@ -1,0 +1,4 @@
+#feign:
+#  circuitbreaker:
+#    enabled: true
+#
