@@ -51,11 +51,10 @@ public class CloudFeignFallbackTest {
         log.info("GetDepartmentDtos Method: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(departmentDtos));
     }
 
-
     @Test
-    public void tpApiClientWrapFactoryTest() throws JsonProcessingException {
-//        AuthServerDto accessToken = tpApiClientWithFactory.getAccessToken("client_credentials", "client_id", "client_secret");
-//        log.info("GetAccessToken Method: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(accessToken));
+    public void tpApiClientWithFactoryTest() throws JsonProcessingException {
+        AuthServerDto accessToken = tpApiClientWithFactory.getAccessToken("client_credentials", "client_id", "client_secret");
+        log.info("GetAccessToken Method: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(accessToken));
 
         ResponseDto<TpUserDto> tpUserDtos = tpApiClientWithFactory.getUserDto(UUID.randomUUID().toString(), "userId");
         log.info("GetUserDto Method: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(tpUserDtos));
@@ -68,7 +67,7 @@ public class CloudFeignFallbackTest {
     }
 
     @Test
-    public void tpApiClientWithFactoryTest() throws JsonProcessingException {
+    public void tpApiClientWrapFactoryTest() throws JsonProcessingException {
         AuthServerDto accessToken = tpApiClientWrapFactory.getAccessToken("client_credentials", "client_id", "client_secret");
         log.info("GetAccessToken Method: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(accessToken));
 
