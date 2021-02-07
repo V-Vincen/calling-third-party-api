@@ -62,4 +62,5 @@ public class ServerSimulatorController {
                 new TpDepartmentDto(19582L, "技术部", "technology_department", 19000L, queryDto.getPosition(), 25L)
         ));
     }
+
 }
